@@ -46,3 +46,10 @@ El script `db/schema/pokemon_schema.sql` contiene una propuesta de esquema relac
 ```bash
 psql -d tu_base -f db/schema/pokemon_schema.sql
 ```
+
+## CI/CD (GitHub Actions)
+
+Se agregaron pipelines en `.github/workflows` para mantener la app:
+
+- `ci.yml`: se ejecuta en `push` y `pull_request` cuando hay cambios en el backend. Corre `mvn clean verify` para validar compilación y pruebas.
+- `maintenance.yml`: se ejecuta cada lunes (y manualmente) para correr regresión (`mvn test`) y reportar actualizaciones disponibles de dependencias/plugins con Maven Versions Plugin.
