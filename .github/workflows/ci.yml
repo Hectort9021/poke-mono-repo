@@ -5,11 +5,11 @@ on:
     branches:
       - "**"
     paths:
-      - "backend/pokemon-ingestion/**"
+      - "apps/backend/pokemon-ingestion/**"
       - ".github/workflows/ci.yml"
   pull_request:
     paths:
-      - "backend/pokemon-ingestion/**"
+      - "apps/backend/pokemon-ingestion/**"
       - ".github/workflows/ci.yml"
 
 jobs:
@@ -29,4 +29,4 @@ jobs:
 
       - name: Run unit tests and package
         run: mvn -B clean verify
-        working-directory: backend/pokemon-ingestion
+        working-directory: apps/backend/pokemon-ingestion
