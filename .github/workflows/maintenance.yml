@@ -22,8 +22,8 @@ jobs:
 
       - name: Run regression tests
         run: mvn -B test
-        working-directory: backend/pokemon-ingestion
+        working-directory: apps/backend/pokemon-ingestion
 
       - name: Report dependency and plugin updates
         run: mvn -B versions:display-dependency-updates versions:display-plugin-updates
-        working-directory: backend/pokemon-ingestion
+        working-directory: apps/backend/pokemon-ingestion

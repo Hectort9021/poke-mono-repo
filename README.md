@@ -2,14 +2,14 @@
 
 ## Fase 1: backend de ingesta con Spring Boot
 
-Se creó un primer servicio en `backend/pokemon-ingestion` para consumir la PokeAPI y traer datos de Pokémon.
+Se creó un primer servicio en `apps/backend/pokemon-ingestion` para consumir la PokeAPI y traer datos de Pokémon.
 
 > La aplicación usa **H2 en memoria** por ahora, así que no necesitas configurar una base de datos externa.
 
 ### Ejecutar
 
 ```bash
-cd backend/pokemon-ingestion
+cd apps/backend/pokemon-ingestion
 mvn spring-boot:run
 ```
 
