@@ -1,5 +1,14 @@
 # Poke Mono Repo
 
+[![Backend CI](https://github.com/OWNER/poke-mono-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/ci.yml)
+[![Backend Maintenance](https://github.com/OWNER/poke-mono-repo/actions/workflows/maintenance.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/maintenance.yml)
+![Java 17](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)
+![Spring Boot 3.3.2](https://img.shields.io/badge/Spring%20Boot-3.3.2-6DB33F?logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white)
+![H2](https://img.shields.io/badge/DB-H2-1A237E)
+
+> Reemplaza `OWNER` por tu usuario u organización de GitHub para activar los badges de workflows.
+
 ## Fase 1: backend de ingesta con Spring Boot
 
 Se creó un primer servicio en `apps/backend/pokemon-ingestion` para consumir la PokeAPI y traer datos de Pokémon.
