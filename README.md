@@ -1,7 +1,7 @@
 # Poke Mono Repo
 
-[![Backend CI](https://github.com/OWNER/poke-mono-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/ci.yml)
-[![Backend Maintenance](https://github.com/OWNER/poke-mono-repo/actions/workflows/maintenance.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/maintenance.yml)
+[![Backend CI](https://github.com/Hectort9021/poke-mono-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/ci.yml)
+[![Backend Maintenance](https://github.com/Hectort9021/poke-mono-repo/actions/workflows/maintenance.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/maintenance.yml)
 ![Java 17](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)
 ![Spring Boot 3.3.2](https://img.shields.io/badge/Spring%20Boot-3.3.2-6DB33F?logo=springboot&logoColor=white)
 ![Maven](https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white)
