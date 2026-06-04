@@ -24,6 +24,15 @@ cd apps/backend/pokemon-ingestion
 mvn spring-boot:run
 ```
 
+### Run with Docker
+
+Build and start the backend from the repository root:
+
+```bash
+docker build -t pokemon-ingestion .
+docker run --rm -p 8080:8080 pokemon-ingestion
+```
+
 ### Test endpoints
 
 Fetch a subset:

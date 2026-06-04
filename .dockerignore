@@ -1,0 +1,10 @@
+.git
+.github
+.codex
+.agents
+**/target
+**/.mvn/wrapper/maven-wrapper.jar
+**/.DS_Store
+**/*.log
+README*.md
+db

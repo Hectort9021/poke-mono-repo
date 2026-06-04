@@ -1,0 +1,14 @@
+com/pokemon/ingestion/dto/PokemonResponse$PokemonStatSlot.class
+com/pokemon/ingestion/persistence/PokemonEntity.class
+com/pokemon/ingestion/dto/PokemonResponse$PokemonTypeSlot.class
+com/pokemon/ingestion/persistence/PokemonRepository.class
+com/pokemon/ingestion/dto/PokemonListResponse.class
+com/pokemon/ingestion/dto/PokemonResponse$PokemonMoveSlot.class
+com/pokemon/ingestion/controller/PokemonIngestionController.class
+com/pokemon/ingestion/dto/PokemonResponse.class
+com/pokemon/ingestion/config/PokeApiProperties.class
+com/pokemon/ingestion/PokemonIngestionApplication.class
+com/pokemon/ingestion/service/PokemonIngestionService.class
+com/pokemon/ingestion/client/PokeApiClient.class
+com/pokemon/ingestion/dto/NamedApiResource.class
+com/pokemon/ingestion/dto/PokemonResponse$PokemonAbilitySlot.class

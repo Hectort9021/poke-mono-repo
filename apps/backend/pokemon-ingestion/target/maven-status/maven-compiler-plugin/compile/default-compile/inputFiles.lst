@@ -1,0 +1,10 @@
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/PokemonIngestionApplication.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/client/PokeApiClient.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/config/PokeApiProperties.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/controller/PokemonIngestionController.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/dto/NamedApiResource.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/dto/PokemonListResponse.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/dto/PokemonResponse.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/persistence/PokemonEntity.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/persistence/PokemonRepository.java
+/Users/hectortabarez/Documents/Projects/Codex/poke-mono-repo/apps/backend/pokemon-ingestion/src/main/java/com/pokemon/ingestion/service/PokemonIngestionService.java

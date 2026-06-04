@@ -1,0 +1,3 @@
+com/pokemon/ingestion/controller/PokemonIngestionControllerTest.class
+com/pokemon/ingestion/persistence/PokemonRepositoryTest.class
+com/pokemon/ingestion/service/PokemonIngestionServiceTest.class
