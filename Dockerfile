@@ -8,11 +8,11 @@ RUN mvn -f apps/backend/pokemon-ingestion/pom.xml dependency:go-offline
 COPY apps/backend/pokemon-ingestion/src apps/backend/pokemon-ingestion/src
 RUN mvn -f apps/backend/pokemon-ingestion/pom.xml clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
-RUN addgroup -S spring && adduser -S spring -G spring
+RUN groupadd --system spring && useradd --system --gid spring spring
 
 COPY --from=build /workspace/apps/backend/pokemon-ingestion/target/pokemon-ingestion-0.0.1-SNAPSHOT.jar app.jar
 
