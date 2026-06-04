@@ -1,5 +1,7 @@
 # Poke Mono Repo
 
+[Leer en Español](README.es.md)
+
 [![Backend CI](https://github.com/Hectort9021/poke-mono-repo/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/ci.yml)
 [![Backend Maintenance](https://github.com/Hectort9021/poke-mono-repo/actions/workflows/maintenance.yml/badge.svg)](https://github.com/OWNER/poke-mono-repo/actions/workflows/maintenance.yml)
 ![Java 17](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)
@@ -7,58 +9,58 @@
 ![Maven](https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white)
 ![H2](https://img.shields.io/badge/DB-H2-1A237E)
 
-> Reemplaza `OWNER` por tu usuario u organización de GitHub para activar los badges de workflows.
+> Replace `OWNER` with your GitHub user or organization to activate the workflow badges.
 
-## Fase 1: backend de ingesta con Spring Boot
+## Phase 1: Spring Boot ingestion backend
 
-Se creó un primer servicio en `apps/backend/pokemon-ingestion` para consumir la PokeAPI y traer datos de Pokémon.
+The first service was created in `apps/backend/pokemon-ingestion` to consume the PokeAPI and fetch Pokemon data.
 
-> La aplicación usa **H2 en memoria** por ahora, así que no necesitas configurar una base de datos externa.
+> The application uses **in-memory H2** for now, so you do not need to configure an external database.
 
-### Ejecutar
+### Run
 
 ```bash
 cd apps/backend/pokemon-ingestion
 mvn spring-boot:run
 ```
 
-### Endpoints de prueba
+### Test endpoints
 
-Traer un subconjunto:
+Fetch a subset:
 
 ```bash
 curl "http://localhost:8080/api/ingestion/pokemon?limit=10"
 ```
 
-Traer todos los Pokémon disponibles en PokeAPI:
+Fetch all Pokemon available in PokeAPI:
 
 ```bash
 curl "http://localhost:8080/api/ingestion/pokemon?all=true"
 ```
 
-Ver cuántos Pokémon quedaron guardados en la BD en memoria:
+Check how many Pokemon were saved in the in-memory database:
 
 ```bash
 curl "http://localhost:8080/api/ingestion/pokemon/count"
 ```
 
-Consola H2 (opcional): `http://localhost:8080/h2-console`
+H2 console (optional): `http://localhost:8080/h2-console`
 
-El endpoint consulta `https://pokeapi.co/api/v2/pokemon` de forma paginada y luego trae el detalle de cada Pokémon solicitado.
+The endpoint queries `https://pokeapi.co/api/v2/pokemon` with pagination and then fetches the details for each requested Pokemon.
 
-## Esquema de base de datos
+## Database schema
 
-El script `db/schema/pokemon_schema.sql` contiene una propuesta de esquema relacional (PostgreSQL) para una fase posterior con base externa: especies, pokémon, tipos, habilidades, estadísticas, movimientos y evolución.
+The `db/schema/pokemon_schema.sql` script contains a proposed relational schema (PostgreSQL) for a later phase with an external database: species, Pokemon, types, abilities, stats, moves, and evolution.
 
-### Ejecutar script
+### Run script
 
 ```bash
-psql -d tu_base -f db/schema/pokemon_schema.sql
+psql -d your_database -f db/schema/pokemon_schema.sql
 ```
 
 ## CI/CD (GitHub Actions)
 
-Se agregaron pipelines en `.github/workflows` para mantener la app:
+Pipelines were added in `.github/workflows` to maintain the app:
 
-- `ci.yml`: se ejecuta en `push` y `pull_request` cuando hay cambios en el backend. Corre `mvn clean verify` para validar compilación y pruebas.
-- `maintenance.yml`: se ejecuta cada lunes (y manualmente) para correr regresión (`mvn test`) y reportar actualizaciones disponibles de dependencias/plugins con Maven Versions Plugin.
+- `ci.yml`: runs on `push` and `pull_request` when there are backend changes. It runs `mvn clean verify` to validate compilation and tests.
+- `maintenance.yml`: runs every Monday (and manually) to run regression tests (`mvn test`) and report available dependency/plugin updates with Maven Versions Plugin.
