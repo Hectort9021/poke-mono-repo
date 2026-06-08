@@ -6,6 +6,8 @@ import com.pokemon.ingestion.dto.PokemonResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.net.URI;
+
 @Component
 public class PokeApiClient {
 
@@ -35,5 +37,12 @@ public class PokeApiClient {
                         .build(name))
                 .retrieve()
                 .body(PokemonResponse.class);
+    }
+
+    public byte[] downloadSprite(String spriteUrl) {
+        return restClient.get()
+                .uri(URI.create(spriteUrl))
+                .retrieve()
+                .body(byte[].class);
     }
 }

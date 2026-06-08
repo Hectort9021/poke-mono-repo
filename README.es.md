@@ -45,6 +45,12 @@ Traer todos los Pokémon disponibles en PokeAPI:
 curl "http://localhost:8080/api/ingestion/pokemon?all=true"
 ```
 
+Descargar el sprite frontal por defecto de un Pokémon:
+
+```bash
+curl -OJ "http://localhost:8080/api/ingestion/pokemon/pikachu/sprite"
+```
+
 Ver cuántos Pokémon quedaron guardados en la BD en memoria:
 
 ```bash
@@ -53,7 +59,7 @@ curl "http://localhost:8080/api/ingestion/pokemon/count"
 
 Consola H2 (opcional): `http://localhost:8080/h2-console`
 
-El endpoint consulta `https://pokeapi.co/api/v2/pokemon` de forma paginada y luego trae el detalle de cada Pokémon solicitado.
+El endpoint consulta `https://pokeapi.co/api/v2/pokemon` de forma paginada, trae el detalle de cada Pokémon solicitado y guarda la URL del sprite `front_default`. El endpoint de sprite vuelve a consultar el detalle del Pokémon y descarga el PNG desde la URL de PokeAPI para entregarlo como archivo adjunto.
 
 ## Esquema de base de datos
 

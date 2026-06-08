@@ -1,6 +1,7 @@
 package com.pokemon.ingestion.controller;
 
 import com.pokemon.ingestion.dto.PokemonResponse;
+import com.pokemon.ingestion.dto.PokemonSpriteDownload;
 import com.pokemon.ingestion.service.PokemonIngestionService;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +36,23 @@ class PokemonIngestionControllerTest {
 
         assertThat(result).isEmpty();
         verify(service).ingestPokemon(10);
+    }
+
+
+    @Test
+    void downloadDefaultSprite_returnsAttachmentResponse() {
+        PokemonIngestionService service = mock(PokemonIngestionService.class);
+        PokemonIngestionController controller = new PokemonIngestionController(service);
+        when(service.downloadDefaultSprite("pikachu"))
+                .thenReturn(new PokemonSpriteDownload("pikachu-front-default.png", "image/png", new byte[] {1, 2, 3}));
+
+        var result = controller.downloadDefaultSprite("pikachu");
+
+        assertThat(result.getHeaders().getContentType().toString()).isEqualTo("image/png");
+        assertThat(result.getHeaders().getFirst("Content-Disposition"))
+                .isEqualTo("attachment; filename=\"pikachu-front-default.png\"");
+        assertThat(result.getBody()).containsExactly(1, 2, 3);
+        verify(service).downloadDefaultSprite("pikachu");
     }
 
     @Test

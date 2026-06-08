@@ -5,6 +5,7 @@ import com.pokemon.ingestion.config.PokeApiProperties;
 import com.pokemon.ingestion.dto.NamedApiResource;
 import com.pokemon.ingestion.dto.PokemonListResponse;
 import com.pokemon.ingestion.dto.PokemonResponse;
+import com.pokemon.ingestion.dto.PokemonSpriteDownload;
 import com.pokemon.ingestion.persistence.PokemonEntity;
 import com.pokemon.ingestion.persistence.PokemonRepository;
 import org.slf4j.Logger;
@@ -72,6 +73,13 @@ public class PokemonIngestionService {
         return pokemonRepository.count();
     }
 
+    public PokemonSpriteDownload downloadDefaultSprite(String pokemonName) {
+        PokemonResponse pokemon = pokeApiClient.getPokemonByName(pokemonName);
+        String spriteUrl = getFrontDefaultSpriteUrl(pokemon);
+        byte[] content = pokeApiClient.downloadSprite(spriteUrl);
+        return new PokemonSpriteDownload(pokemon.name() + "-front-default.png", "image/png", content);
+    }
+
     private PokemonEntity mapToEntity(PokemonResponse pokemon) {
         PokemonEntity entity = new PokemonEntity();
         entity.setPokeApiId(pokemon.id());
@@ -80,6 +88,14 @@ public class PokemonIngestionService {
         entity.setHeight(pokemon.height());
         entity.setWeight(pokemon.weight());
         entity.setIsDefault(pokemon.isDefault());
+        entity.setFrontDefaultSpriteUrl(getFrontDefaultSpriteUrl(pokemon));
         return entity;
+    }
+
+    private String getFrontDefaultSpriteUrl(PokemonResponse pokemon) {
+        if (pokemon == null || pokemon.sprites() == null || pokemon.sprites().frontDefault() == null) {
+            throw new IllegalStateException("El Pokémon no tiene sprite front_default disponible");
+        }
+        return pokemon.sprites().frontDefault();
     }
 }
