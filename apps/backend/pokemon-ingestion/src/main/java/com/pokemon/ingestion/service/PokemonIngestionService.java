@@ -6,6 +6,7 @@ import com.pokemon.ingestion.dto.NamedApiResource;
 import com.pokemon.ingestion.dto.PokemonListResponse;
 import com.pokemon.ingestion.dto.PokemonResponse;
 import com.pokemon.ingestion.dto.PokemonSpriteDownload;
+import com.pokemon.ingestion.exception.PokemonSpriteNotFoundException;
 import com.pokemon.ingestion.persistence.PokemonEntity;
 import com.pokemon.ingestion.persistence.PokemonRepository;
 import org.slf4j.Logger;
@@ -95,7 +96,7 @@ public class PokemonIngestionService {
     private String getFrontDefaultSpriteUrl(PokemonResponse pokemon) {
         String spriteUrl = getFrontDefaultSpriteUrlOrNull(pokemon);
         if (spriteUrl == null) {
-            throw new IllegalStateException("El Pokémon no tiene sprite front_default disponible");
+            throw new PokemonSpriteNotFoundException(pokemon == null ? "desconocido" : pokemon.name());
         }
         return spriteUrl;
     }

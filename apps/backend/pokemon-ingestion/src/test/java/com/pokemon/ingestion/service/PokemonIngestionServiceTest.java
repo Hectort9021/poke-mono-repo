@@ -5,6 +5,8 @@ import com.pokemon.ingestion.config.PokeApiProperties;
 import com.pokemon.ingestion.dto.NamedApiResource;
 import com.pokemon.ingestion.dto.PokemonListResponse;
 import com.pokemon.ingestion.dto.PokemonResponse;
+import com.pokemon.ingestion.exception.PokemonNotFoundException;
+import com.pokemon.ingestion.exception.PokemonSpriteNotFoundException;
 import com.pokemon.ingestion.persistence.PokemonRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.never;
@@ -122,6 +125,26 @@ class PokemonIngestionServiceTest {
         assertThat(result.filename()).isEqualTo("pikachu-front-default.png");
         assertThat(result.contentType()).isEqualTo("image/png");
         assertThat(result.content()).containsExactly(1, 2, 3);
+    }
+
+    @Test
+    void downloadDefaultSprite_propagatesPokemonNotFoundWithoutDownloadingSprite() {
+        when(pokeApiClient.getPokemonByName("missingno")).thenThrow(new PokemonNotFoundException("missingno"));
+
+        assertThatThrownBy(() -> ingestionService.downloadDefaultSprite("missingno"))
+                .isInstanceOf(PokemonNotFoundException.class)
+                .hasMessage("No se encontró el Pokémon: missingno");
+        verify(pokeApiClient, never()).downloadSprite(anyString());
+    }
+
+    @Test
+    void downloadDefaultSprite_throwsSpriteNotFoundWhenPokemonHasNoDefaultSprite() {
+        when(pokeApiClient.getPokemonByName("ditto")).thenReturn(pokemonWithoutSprites(132, "ditto"));
+
+        assertThatThrownBy(() -> ingestionService.downloadDefaultSprite("ditto"))
+                .isInstanceOf(PokemonSpriteNotFoundException.class)
+                .hasMessage("No se encontró sprite front_default para el Pokémon: ditto");
+        verify(pokeApiClient, never()).downloadSprite(anyString());
     }
 
     @Test

@@ -61,7 +61,7 @@ curl "http://localhost:8080/api/ingestion/pokemon/count"
 
 H2 console (optional): `http://localhost:8080/h2-console`
 
-The endpoint queries `https://pokeapi.co/api/v2/pokemon` with pagination, fetches the details for each requested Pokemon, and only stores the `front_default` sprite URL when available; it does not download images during ingestion. The actual PNG download happens only when the sprite endpoint is called, which fetches the Pokemon detail again and returns the file as an attachment.
+The endpoint queries `https://pokeapi.co/api/v2/pokemon` with pagination, fetches the details for each requested Pokemon, and only stores the `front_default` sprite URL when available; it does not download images during ingestion. The actual PNG download happens only when the sprite endpoint is called, which fetches the Pokemon detail again and returns the file as an attachment. If PokeAPI does not recognize the requested name, the API responds with `404 Not Found` and a `pokemon_not_found` error.
 
 ## Database schema
 
