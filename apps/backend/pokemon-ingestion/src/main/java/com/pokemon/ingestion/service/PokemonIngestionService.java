@@ -88,13 +88,21 @@ public class PokemonIngestionService {
         entity.setHeight(pokemon.height());
         entity.setWeight(pokemon.weight());
         entity.setIsDefault(pokemon.isDefault());
-        entity.setFrontDefaultSpriteUrl(getFrontDefaultSpriteUrl(pokemon));
+        entity.setFrontDefaultSpriteUrl(getFrontDefaultSpriteUrlOrNull(pokemon));
         return entity;
     }
 
     private String getFrontDefaultSpriteUrl(PokemonResponse pokemon) {
-        if (pokemon == null || pokemon.sprites() == null || pokemon.sprites().frontDefault() == null) {
+        String spriteUrl = getFrontDefaultSpriteUrlOrNull(pokemon);
+        if (spriteUrl == null) {
             throw new IllegalStateException("El Pokémon no tiene sprite front_default disponible");
+        }
+        return spriteUrl;
+    }
+
+    private String getFrontDefaultSpriteUrlOrNull(PokemonResponse pokemon) {
+        if (pokemon == null || pokemon.sprites() == null) {
+            return null;
         }
         return pokemon.sprites().frontDefault();
     }

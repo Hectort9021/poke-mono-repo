@@ -15,7 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,6 +57,25 @@ class PokemonIngestionServiceTest {
         verify(pokemonRepository).save(argThat(entity ->
                 "https://sprites.example/bulbasaur.png".equals(entity.getFrontDefaultSpriteUrl())
         ));
+        verify(pokeApiClient, never()).downloadSprite(anyString());
+    }
+
+    @Test
+    void ingestPokemon_doesNotDownloadSpriteAndAllowsMissingSpriteUrl() {
+        when(properties.pageSize()).thenReturn(1);
+        when(pokeApiClient.getPokemonPage(0, 1)).thenReturn(new PokemonListResponse(
+                1,
+                null,
+                null,
+                List.of(new NamedApiResource("ditto", "u1"))
+        ));
+        when(pokeApiClient.getPokemonByName("ditto")).thenReturn(pokemonWithoutSprites(132, "ditto"));
+
+        List<PokemonResponse> result = ingestionService.ingestPokemon(1);
+
+        assertThat(result).hasSize(1);
+        verify(pokemonRepository).save(argThat(entity -> entity.getFrontDefaultSpriteUrl() == null));
+        verify(pokeApiClient, never()).downloadSprite(anyString());
     }
 
     @Test
@@ -91,7 +112,6 @@ class PokemonIngestionServiceTest {
                 .containsExactly("bulbasaur", "ivysaur", "venusaur", "charmander");
     }
 
-
     @Test
     void downloadDefaultSprite_fetchesSpriteBytesFromFrontDefaultUrl() {
         when(pokeApiClient.getPokemonByName("pikachu")).thenReturn(pokemon(25, "pikachu"));
@@ -114,6 +134,19 @@ class PokemonIngestionServiceTest {
     }
 
     private PokemonResponse pokemon(int id, String name) {
+        return pokemon(id, name, new PokemonResponse.PokemonSprites(
+                "https://sprites.example/" + name + ".png",
+                null,
+                null,
+                null
+        ));
+    }
+
+    private PokemonResponse pokemonWithoutSprites(int id, String name) {
+        return pokemon(id, name, null);
+    }
+
+    private PokemonResponse pokemon(int id, String name, PokemonResponse.PokemonSprites sprites) {
         return new PokemonResponse(
                 id,
                 name,
@@ -121,7 +154,7 @@ class PokemonIngestionServiceTest {
                 0,
                 0,
                 true,
-                new PokemonResponse.PokemonSprites("https://sprites.example/" + name + ".png", null, null, null),
+                sprites,
                 List.of(),
                 List.of(),
                 List.of(),

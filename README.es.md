@@ -59,7 +59,7 @@ curl "http://localhost:8080/api/ingestion/pokemon/count"
 
 Consola H2 (opcional): `http://localhost:8080/h2-console`
 
-El endpoint consulta `https://pokeapi.co/api/v2/pokemon` de forma paginada, trae el detalle de cada Pokémon solicitado y guarda la URL del sprite `front_default`. El endpoint de sprite vuelve a consultar el detalle del Pokémon y descarga el PNG desde la URL de PokeAPI para entregarlo como archivo adjunto.
+El endpoint consulta `https://pokeapi.co/api/v2/pokemon` de forma paginada, trae el detalle de cada Pokémon solicitado y solo guarda la URL del sprite `front_default` cuando está disponible; no descarga las imágenes durante la ingesta. La descarga real del PNG ocurre únicamente al llamar al endpoint de sprite, que vuelve a consultar el detalle del Pokémon y entrega el archivo como adjunto.
 
 ## Esquema de base de datos
 

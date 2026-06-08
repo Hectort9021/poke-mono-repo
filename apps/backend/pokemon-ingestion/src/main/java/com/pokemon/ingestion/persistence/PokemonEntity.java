@@ -28,7 +28,7 @@ public class PokemonEntity {
     @Column(name = "is_default", nullable = false)
     private Boolean isDefault;
 
-    @Column(name = "front_default_sprite_url", nullable = false, length = 500)
+    @Column(name = "front_default_sprite_url", length = 500)
     private String frontDefaultSpriteUrl;
 
     public Integer getPokeApiId() {
