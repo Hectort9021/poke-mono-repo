@@ -15,6 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,7 +54,28 @@ class PokemonIngestionServiceTest {
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).name()).isEqualTo("bulbasaur");
-        verify(pokemonRepository).save(org.mockito.ArgumentMatchers.any());
+        verify(pokemonRepository).save(argThat(entity ->
+                "https://sprites.example/bulbasaur.png".equals(entity.getFrontDefaultSpriteUrl())
+        ));
+        verify(pokeApiClient, never()).downloadSprite(anyString());
+    }
+
+    @Test
+    void ingestPokemon_doesNotDownloadSpriteAndAllowsMissingSpriteUrl() {
+        when(properties.pageSize()).thenReturn(1);
+        when(pokeApiClient.getPokemonPage(0, 1)).thenReturn(new PokemonListResponse(
+                1,
+                null,
+                null,
+                List.of(new NamedApiResource("ditto", "u1"))
+        ));
+        when(pokeApiClient.getPokemonByName("ditto")).thenReturn(pokemonWithoutSprites(132, "ditto"));
+
+        List<PokemonResponse> result = ingestionService.ingestPokemon(1);
+
+        assertThat(result).hasSize(1);
+        verify(pokemonRepository).save(argThat(entity -> entity.getFrontDefaultSpriteUrl() == null));
+        verify(pokeApiClient, never()).downloadSprite(anyString());
     }
 
     @Test
@@ -89,6 +113,18 @@ class PokemonIngestionServiceTest {
     }
 
     @Test
+    void downloadDefaultSprite_fetchesSpriteBytesFromFrontDefaultUrl() {
+        when(pokeApiClient.getPokemonByName("pikachu")).thenReturn(pokemon(25, "pikachu"));
+        when(pokeApiClient.downloadSprite("https://sprites.example/pikachu.png")).thenReturn(new byte[] {1, 2, 3});
+
+        var result = ingestionService.downloadDefaultSprite("pikachu");
+
+        assertThat(result.filename()).isEqualTo("pikachu-front-default.png");
+        assertThat(result.contentType()).isEqualTo("image/png");
+        assertThat(result.content()).containsExactly(1, 2, 3);
+    }
+
+    @Test
     void countStoredPokemon_returnsRepositoryCount() {
         when(pokemonRepository.count()).thenReturn(151L);
 
@@ -98,6 +134,32 @@ class PokemonIngestionServiceTest {
     }
 
     private PokemonResponse pokemon(int id, String name) {
-        return new PokemonResponse(id, name, null, 0, 0, true, List.of(), List.of(), List.of(), List.of(), null);
+        return pokemon(id, name, new PokemonResponse.PokemonSprites(
+                "https://sprites.example/" + name + ".png",
+                null,
+                null,
+                null
+        ));
+    }
+
+    private PokemonResponse pokemonWithoutSprites(int id, String name) {
+        return pokemon(id, name, null);
+    }
+
+    private PokemonResponse pokemon(int id, String name, PokemonResponse.PokemonSprites sprites) {
+        return new PokemonResponse(
+                id,
+                name,
+                null,
+                0,
+                0,
+                true,
+                sprites,
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(),
+                null
+        );
     }
 }

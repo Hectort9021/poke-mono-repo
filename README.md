@@ -47,6 +47,12 @@ Fetch all Pokemon available in PokeAPI:
 curl "http://localhost:8080/api/ingestion/pokemon?all=true"
 ```
 
+Download a Pokemon default front sprite:
+
+```bash
+curl -OJ "http://localhost:8080/api/ingestion/pokemon/pikachu/sprite"
+```
+
 Check how many Pokemon were saved in the in-memory database:
 
 ```bash
@@ -55,7 +61,7 @@ curl "http://localhost:8080/api/ingestion/pokemon/count"
 
 H2 console (optional): `http://localhost:8080/h2-console`
 
-The endpoint queries `https://pokeapi.co/api/v2/pokemon` with pagination and then fetches the details for each requested Pokemon.
+The endpoint queries `https://pokeapi.co/api/v2/pokemon` with pagination, fetches the details for each requested Pokemon, and only stores the `front_default` sprite URL when available; it does not download images during ingestion. The actual PNG download happens only when the sprite endpoint is called, which fetches the Pokemon detail again and returns the file as an attachment.
 
 ## Database schema
 

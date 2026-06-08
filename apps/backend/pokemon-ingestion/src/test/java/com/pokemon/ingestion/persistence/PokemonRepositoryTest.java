@@ -43,6 +43,7 @@ class PokemonRepositoryTest {
         pokemon.setHeight(4);
         pokemon.setWeight(60);
         pokemon.setIsDefault(true);
+        pokemon.setFrontDefaultSpriteUrl("https://sprites.example/pikachu.png");
 
         pokemonRepository.save(pokemon);
 

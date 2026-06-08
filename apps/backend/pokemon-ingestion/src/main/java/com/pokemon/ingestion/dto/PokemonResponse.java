@@ -11,12 +11,21 @@ public record PokemonResponse(
         int height,
         int weight,
         @JsonProperty("is_default") boolean isDefault,
+        PokemonSprites sprites,
         List<PokemonTypeSlot> types,
         List<PokemonStatSlot> stats,
         List<PokemonAbilitySlot> abilities,
         List<PokemonMoveSlot> moves,
         NamedApiResource species
 ) {
+
+    public record PokemonSprites(
+            @JsonProperty("front_default") String frontDefault,
+            @JsonProperty("front_shiny") String frontShiny,
+            @JsonProperty("back_default") String backDefault,
+            @JsonProperty("back_shiny") String backShiny
+    ) {
+    }
 
     public record PokemonTypeSlot(
             int slot,
