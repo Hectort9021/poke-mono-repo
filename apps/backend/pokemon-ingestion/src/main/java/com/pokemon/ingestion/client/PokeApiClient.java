@@ -51,4 +51,11 @@ public class PokeApiClient {
                 .retrieve()
                 .body(byte[].class);
     }
+
+    public byte[] downloadSprite(String spriteUrl) {
+        return restClient.get()
+                .uri(URI.create(spriteUrl))
+                .retrieve()
+                .body(byte[].class);
+    }
 }
