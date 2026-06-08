@@ -3,8 +3,12 @@ package com.pokemon.ingestion.client;
 import com.pokemon.ingestion.config.PokeApiProperties;
 import com.pokemon.ingestion.dto.PokemonListResponse;
 import com.pokemon.ingestion.dto.PokemonResponse;
+import com.pokemon.ingestion.exception.PokemonNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+
+import java.net.URI;
 
 @Component
 public class PokeApiClient {
@@ -29,11 +33,22 @@ public class PokeApiClient {
     }
 
     public PokemonResponse getPokemonByName(String name) {
+        try {
+            return restClient.get()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/pokemon/{name}")
+                            .build(name))
+                    .retrieve()
+                    .body(PokemonResponse.class);
+        } catch (HttpClientErrorException.NotFound exception) {
+            throw new PokemonNotFoundException(name, exception);
+        }
+    }
+
+    public byte[] downloadSprite(String spriteUrl) {
         return restClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/pokemon/{name}")
-                        .build(name))
+                .uri(URI.create(spriteUrl))
                 .retrieve()
-                .body(PokemonResponse.class);
+                .body(byte[].class);
     }
 }

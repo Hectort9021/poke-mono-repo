@@ -4,5 +4,6 @@ CREATE TABLE pokemon (
     base_experience INTEGER,
     height INTEGER NOT NULL,
     weight INTEGER NOT NULL,
-    is_default BOOLEAN NOT NULL DEFAULT TRUE
+    is_default BOOLEAN NOT NULL DEFAULT TRUE,
+    front_default_sprite_url VARCHAR(500)
 );
